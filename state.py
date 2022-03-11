@@ -6,7 +6,7 @@ class State(object):
     Represents a state in the 8-Puzzle game.
     """
 
-    def __init__(self, currentState, size, goal, parent=None, cost=0):
+    def __init__(self, currentState, size, goal, parent=None, cost=0, operator="Root"):
         """
         Constructor for the State object
         :param currentState: The current state of the puzzle
@@ -20,6 +20,7 @@ class State(object):
         self.parent = parent
         self.children = []
         self.cost = cost
+        self.operator = operator
         self.blank_row = self.find_blank_row()
         self.blank_column = self.find_blank_column()
 
@@ -39,13 +40,7 @@ class State(object):
         return blank_column
 
     def display_state(self):
-        print("******* State *******")
-        for i in range(self.size):
-            row = []
-            row_index = i * self.size
-            for j in range(self.size):
-                row.append(self.currentState[row_index + j])
-            print(row)
+        print(self.currentState)
 
     def swap(self, i, j):
         new_state = self.currentState.copy()
@@ -60,7 +55,7 @@ class State(object):
             target_index = blank_index - 1
             new_state = self.swap(blank_index, target_index)
             cost = self.cost + 1
-            return State(new_state, self.size, self.goal, self, cost)
+            return State(new_state, self.size, self.goal, self, cost, operator="Left")
 
 
     def move_right(self):
@@ -71,7 +66,7 @@ class State(object):
             target_index = blank_index + 1
             new_state = self.swap(blank_index, target_index)
             cost = self.cost + 1
-            return State(new_state, self.size, self.goal, self, cost)
+            return State(new_state, self.size, self.goal, self, cost, operator="Right")
     
     def move_up(self):
         if self.blank_row == 0:
@@ -81,7 +76,7 @@ class State(object):
             target_index = blank_index - self.size
             new_state = self.swap(blank_index, target_index)
             cost = self.cost + 1
-            return State(new_state, self.size, self.goal, self, cost)
+            return State(new_state, self.size, self.goal, self, cost, operator="Up")
     
     def move_down(self):
         if self.blank_row == self.size - 1:
@@ -91,7 +86,7 @@ class State(object):
             target_index = blank_index + self.size
             new_state = self.swap(blank_index, target_index)
             cost = self.cost + 1
-            return State(new_state, self.size, self.goal, self, cost)
+            return State(new_state, self.size, self.goal, self, cost, operator="Down")
 
     def expand(self, DFS=False):
         if len(self.children) == 0:
