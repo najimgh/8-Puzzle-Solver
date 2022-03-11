@@ -20,7 +20,6 @@ def DFS(initial_state):
         nodes_explored = nodes_explored + 1
 
         for child in state.expand(True):
-            # print("This is the child", child.currentState)
             if tuple(child.currentState) not in closed and tuple(child.currentState) not in open_state:
                 open.append(child)
                 open_state.append(tuple(child.currentState))
