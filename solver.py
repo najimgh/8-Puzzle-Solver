@@ -1,6 +1,7 @@
 from importlib.resources import path
 from state import State
 from dfs import DFS
+from bfs import BFS
 import math
 import time
 
@@ -11,8 +12,8 @@ class Solver(object):
         SIZE = 3
         self.state = State(initial_state, SIZE, goal)
 
-        # if(algorithm == 'bfs'): 
-        #     self.search_alg = BFS
+        if(algorithm == 'bfs'): 
+            self.search_alg = BFS
 
         if(algorithm == 'dfs'):
             self.search_alg = DFS
@@ -30,10 +31,10 @@ class Solver(object):
         search_depth = 0
 
         while parent_state:
-            if parent_state.parent:
-                search_depth += 1
-                action_path.append(parent_state.operator)
-                state_path_to_goal.append(parent_state)
+            # if parent_state.parent:
+            search_depth += 1
+            action_path.append(parent_state.operator)
+            state_path_to_goal.append(parent_state)
             parent_state = parent_state.parent
         action_path.reverse()
         state_path_to_goal.reverse()
@@ -43,6 +44,7 @@ class Solver(object):
         print("State Path to Goal:" + "\n")
         for state in state_path_to_goal:
             state.display_state()
+        print("\n")
         print("path_cost:", str(path_cost) + "\n")
         print("nodes_explored:", str(nodes_explored) + "\n")
         print("search_depth:", str(search_depth) + "\n")
