@@ -26,7 +26,7 @@ class State(object):
 
     def find_blank_index(self):
         for i, value in enumerate(self.currentState):
-            if value == 0:
+            if value == "B":
                 return i
     
     def find_blank_row(self):
