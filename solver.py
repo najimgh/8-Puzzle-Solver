@@ -24,15 +24,25 @@ class Solver(object):
     def output(self, result, r_time):
         final_state, nodes_explored, max_search_depth = result
         path_cost = final_state.cost
+        action_path = [final_state.operator]
+        state_path_to_goal = [final_state]
         parent_state = final_state.parent
         search_depth = 0
 
         while parent_state:
             if parent_state.parent:
                 search_depth += 1
+                action_path.append(parent_state.operator)
+                state_path_to_goal.append(parent_state)
             parent_state = parent_state.parent
+        action_path.reverse()
+        state_path_to_goal.reverse()
 
         print("\n" + "------ Results ------")
+        print("action_path:", str(action_path) + "\n")
+        print("State Path to Goal:" + "\n")
+        for state in state_path_to_goal:
+            state.display_state()
         print("path_cost:", str(path_cost) + "\n")
         print("nodes_explored:", str(nodes_explored) + "\n")
         print("search_depth:", str(search_depth) + "\n")

@@ -13,9 +13,7 @@ def DFS(initial_state):
 
     while open:
         state = open.pop()
-        state.display_state()
         closed.add(tuple(state.currentState))
-        #print("Closed List:", closed)
         if state.is_goal():
             return (state, nodes_explored, max_search_depth)
 
