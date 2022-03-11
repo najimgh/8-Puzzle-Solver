@@ -39,6 +39,7 @@ class State(object):
         return blank_column
 
     def display_state(self):
+        print("******* State *******")
         for i in range(self.size):
             row = []
             row_index = i * self.size
@@ -47,7 +48,7 @@ class State(object):
             print(row)
 
     def swap(self, i, j):
-        new_state = self.currentState
+        new_state = self.currentState.copy()
         new_state[i], new_state[j] = new_state[j], new_state[i]
         return new_state
 
@@ -95,13 +96,11 @@ class State(object):
     def expand(self, DFS=False):
         if len(self.children) == 0:
             if (DFS):
-                expanded = [self.move_up(), self.move_down(), self.move_left(), self.move_right()]
-                expanded = list(filter(None, expanded))
-                self.children.append(expanded)
+                self.children = [self.move_up(), self.move_down(), self.move_left(), self.move_right()]
+                self.children = list(filter(None, self.children))
             else:
-                expanded = [self.move_right(), self.move_left(), self.move_down(), self.move_up()]
-                expanded = list(filter(None, expanded))
-                self.children.append(expanded)
+                self.children = [self.move_right(), self.move_left(), self.move_down(), self.move_up()]
+                self.children = list(filter(None, self.children))
 
         return self.children
 
