@@ -4,8 +4,7 @@ from dfs import DFS
 from bfs import BFS
 from gbfs import GBFS
 from a_star import A_STAR
-from heuristics import hamming_distance, manhattan_distance, perm_inversion
-import math
+from heuristics import hamming_distance, manhattan_distance, nilsson_sequence, perm_inversion
 import time
 
 class Solver(object):
@@ -20,8 +19,6 @@ class Solver(object):
         """
         if(heuristic is None):
             self.state = State(initial_state, SIZE, goal)
-        elif(heuristic == 'inversion'):
-            self.state = State(initial_state, SIZE, goal, self.total_cost_inversion)
         else:
             self.state = State(initial_state, SIZE, goal, self.total_cost)
 
@@ -47,6 +44,8 @@ class Solver(object):
                 self.distance = manhattan_distance
             elif(heuristic == 'inversion'):
                 self.distance = perm_inversion
+            elif(heuristic == 'nilsson'):
+                self.distance = nilsson_sequence
             elif(heuristic == None):
                 raise Exception("A heuristic needs to be defined when using the A* search algorithm")
 
@@ -56,32 +55,25 @@ class Solver(object):
         If using GBFS as the search algorithm, calculate only the heuristic cost h(n).
         """
         sum_h = 0
-        for i, value in enumerate(state.currentState):
-            # Skip cost calculation for the empty tile
-            if(value == "B"):
-                continue
-            # Position of current value
-            current_row = i // state.size
-            current_col = i % state.size
-            # Position of goal  value
-            goal_value_index = state.goal.index(value)
-            goal_row = goal_value_index // state.size
-            goal_col = goal_value_index % state.size
-
-            sum_h += self.distance(current_row,current_col,goal_row,goal_col)
-        if(self.algorithm == 'gbfs'):
-            return sum_h
-        sum_g = state.cost
-        total_cost = sum_g + sum_h
-        return total_cost
-
-    def total_cost_inversion(self, state):
-        """
-        Calculate the total cost of a state using f(n) = g(n) + h(n)
-        Specifically for the permutation inversion heuristic.
-        If using GBFS as the search algorithm, calculate only the heuristic cost h(n).
-        """
-        sum_h = self.distance(state.currentState)
+        if(self.heuristic == 'nilsson'):
+            sum_h += self.distance(state)
+        elif(self.heuristic == 'inversion'):
+            sum_h = self.distance(state.currentState)
+        else:
+            for i, value in enumerate(state.currentState):
+                # Skip cost calculation for the empty tile
+                if(value == "B"):
+                    continue
+                # Position of current value
+                current_row = i // state.size
+                current_col = i % state.size
+                # Position of goal  value
+                goal_value_index = state.goal.index(value)
+                goal_row = goal_value_index // state.size
+                goal_col = goal_value_index % state.size
+        
+                sum_h += self.distance(current_row,current_col,goal_row,goal_col)
+        # Return only the heuristic cost if the algorithm is GBFS 
         if(self.algorithm == 'gbfs'):
             return sum_h
         sum_g = state.cost
@@ -123,10 +115,7 @@ class Solver(object):
         start_time = time.time()
 
         if(self.search_alg == A_STAR or self.search_alg == GBFS):
-            if(self.heuristic == 'inversion'):
-                results = self.search_alg(self.state, self.total_cost_inversion)
-            else:
-                results = self.search_alg(self.state, self.total_cost)
+            results = self.search_alg(self.state, self.total_cost)
         else:
             results = self.search_alg(self.state)
 
