@@ -6,7 +6,7 @@ class State(object):
     Represents a state in the 8-Puzzle game.
     """
 
-    def __init__(self, currentState, size, goal, parent=None, cost=0, operator="Root"):
+    def __init__(self, currentState, size, goal, cost_function=None, parent=None, cost=0, operator="Root"):
         """
         Constructor for the State object
         :param currentState: The current state of the puzzle
@@ -20,6 +20,7 @@ class State(object):
         self.parent = parent
         self.children = []
         self.cost = cost
+        self.cost_function = cost_function
         self.operator = operator
         self.blank_row = self.find_blank_row()
         self.blank_column = self.find_blank_column()
@@ -55,7 +56,7 @@ class State(object):
             target_index = blank_index - 1
             new_state = self.swap(blank_index, target_index)
             cost = self.cost + 1
-            return State(new_state, self.size, self.goal, self, cost, operator="Left")
+            return State(new_state, self.size, self.goal, self.cost_function, self, cost, operator="Left")
 
 
     def move_right(self):
@@ -66,7 +67,7 @@ class State(object):
             target_index = blank_index + 1
             new_state = self.swap(blank_index, target_index)
             cost = self.cost + 1
-            return State(new_state, self.size, self.goal, self, cost, operator="Right")
+            return State(new_state, self.size, self.goal, self.cost_function, self, cost, operator="Right")
     
     def move_up(self):
         if self.blank_row == 0:
@@ -76,7 +77,7 @@ class State(object):
             target_index = blank_index - self.size
             new_state = self.swap(blank_index, target_index)
             cost = self.cost + 1
-            return State(new_state, self.size, self.goal, self, cost, operator="Up")
+            return State(new_state, self.size, self.goal, self.cost_function, self, cost, operator="Up")
     
     def move_down(self):
         if self.blank_row == self.size - 1:
@@ -86,18 +87,25 @@ class State(object):
             target_index = blank_index + self.size
             new_state = self.swap(blank_index, target_index)
             cost = self.cost + 1
-            return State(new_state, self.size, self.goal, self, cost, operator="Down")
+            return State(new_state, self.size, self.goal, self.cost_function, self, cost, operator="Down")
 
-    def expand(self, DFS=False):
+    def expand(self):
         if len(self.children) == 0:
-            if (DFS):
-                self.children = [self.move_up(), self.move_down(), self.move_left(), self.move_right()]
-                self.children = list(filter(None, self.children))
-            else:
-                self.children = [self.move_right(), self.move_left(), self.move_down(), self.move_up()]
-                self.children = list(filter(None, self.children))
-
+            self.children = [self.move_up(), self.move_down(), self.move_left(), self.move_right()]
+            self.children = list(filter(None, self.children))
         return self.children
 
     def is_goal(self):
         return self.currentState == self.goal
+
+    def __lt__(self, other):
+        """
+        Function used by the PriorityQueue to compare cost values
+        """
+        return self.cost_function(self) < self.cost_function(other)
+
+    def __le__(self, other):
+        """
+        Function used by the PriorityQueue to compare cost values
+        """
+        return self.cost_function(self) <= self.cost_function(other)
