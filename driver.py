@@ -6,7 +6,7 @@ def main():
     goal_state = [1, 2, 3, 8, "B", 4, 7, 6, 5]
 
     # Modify the solver based on the algorithms you want to run
-    #solver = Solver(initial_state, goal_state, 'bfs')
+    #solver = Solver(initial_state, goal_state, 'dfs')
     solver = Solver(initial_state, goal_state, 'astar', 'manhattan')
     solver.solve()
 
