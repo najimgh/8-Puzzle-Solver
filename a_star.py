@@ -18,7 +18,7 @@ def A_STAR(initial_state, total_cost):
     while not open.is_empty():
         state = open.get()
         closed.add(state)
-        # Check is state is the goal state
+        # Check if state is the goal state
         if state.is_goal():
             return (state, nodes_explored, max_search_depth)
 
