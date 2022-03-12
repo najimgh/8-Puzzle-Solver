@@ -1,14 +1,14 @@
-from priority_queue import PriorityQueue
+from util.priority_queue import PriorityQueue
 
-def GBFS(initial_state, heuristic_cost):
+def A_STAR(initial_state, total_cost):
     """
-    Greedy Best-First search algorithm.
-    Using the heuristic cost to calculate the priority
+    A* search algorithm.
+    Using the total cost to calculate the priority
     """
     # Using PriorityQueue defined in priority_queue.py
     open = PriorityQueue()
-    open.put(initial_state, heuristic_cost(initial_state))
-    # Used to check if the state is not already in the open list.
+    open.put(initial_state, total_cost(initial_state))
+    # open_state is used to check if the state is not already in the open list.
     # This is for cases where the search makes a move that backtracks to the parent state
     open_state = []
     open_state.append(tuple(initial_state.currentState))
@@ -29,7 +29,7 @@ def GBFS(initial_state, heuristic_cost):
         for child in state.expand():
             # If the child is not in the closed list or already in the open list
             if child not in closed and tuple(child.currentState) not in open_state:
-                open.put(child, heuristic_cost(child))
+                open.put(child, total_cost(child))
                 open_state.append(tuple(child.currentState))
                 if child.cost > max_search_depth:
                     max_search_depth = child.cost

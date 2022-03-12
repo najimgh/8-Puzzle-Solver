@@ -1,10 +1,13 @@
 from importlib.resources import path
-from state import State
-from dfs import DFS
-from bfs import BFS
-from gbfs import GBFS
-from a_star import A_STAR
-from heuristics import hamming_distance, manhattan_distance, nilsson_sequence, perm_inversion
+from puzzle.state import State
+from algorithms.dfs import DFS
+from algorithms.bfs import BFS
+from algorithms.gbfs import GBFS
+from algorithms.a_star import A_STAR
+from heuristics.hamming import hamming_distance
+from heuristics.inversion import perm_inversion
+from heuristics.manhattan import manhattan_distance
+from heuristics.nilsson import nilsson_sequence
 import time
 
 class Solver(object):
