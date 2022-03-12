@@ -2,7 +2,8 @@ from priority_queue import PriorityQueue
 
 def A_STAR(initial_state, total_cost):
     """
-    A* search algorithm
+    A* search algorithm.
+    Using the total cost to calculate the priority
     """
     # Using PriorityQueue defined in priority_queue.py
     open = PriorityQueue()
