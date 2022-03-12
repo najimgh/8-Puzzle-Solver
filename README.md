@@ -1,7 +1,7 @@
 # 8-Puzzle-Solver
-8 puzzle solver using informed and uninfromed searches.
+8 puzzle solver using informed and uninformed searches.
 
-- Uninfromed Searches: 
+- Uninformed Searches: 
   - BFS
   - DFS
 - Informed Searches:
