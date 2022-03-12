@@ -101,7 +101,6 @@ def nilsson_sequence(state):
         elif(square_numbers[next_val(state.currentState, square_numbers, value)] != (goal_numbers[value] + 1)):
             sum_s = 3*2
 
-    print("Nilsson Sequence sum:", sum_p + sum_s)
     return sum_p + sum_s
 
 
