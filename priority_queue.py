@@ -27,7 +27,10 @@ class PriorityQueue:
         We specify the index to be 1 because we are getting from the tuple (priority, item).
         Therefore, we are popping item.
         """
-        return heapq.heappop(self.elements)[1]
+        if self.elements:
+            return heapq.heappop(self.elements)[1]
+        else:
+            print("No more elements to Pop in Priority Queue")
 
     def __str__(self):
         return str(self.elements)
