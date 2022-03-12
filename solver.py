@@ -2,14 +2,17 @@ from importlib.resources import path
 from state import State
 from dfs import DFS
 from bfs import BFS
+from gbfs import GBFS
 from a_star import A_STAR
-from heuristics import hamming_distance, manhattan_distance
+from heuristics import hamming_distance, manhattan_distance, perm_inversion
 import math
 import time
 
 class Solver(object):
 
     def __init__(self, initial_state, goal, algorithm='bfs', heuristic= None):
+        self.heuristic = heuristic
+        self.algorithm = algorithm
         self.initial_state = initial_state
         SIZE = 3
         """
@@ -17,11 +20,13 @@ class Solver(object):
         """
         if(heuristic is None):
             self.state = State(initial_state, SIZE, goal)
+        elif(heuristic == 'inversion'):
+            self.state = State(initial_state, SIZE, goal, self.total_cost_inversion)
         else:
             self.state = State(initial_state, SIZE, goal, self.total_cost)
 
         """
-        Set the algorithm variable and heuristic function if it is applicable
+        Set the search algorithm function and heuristic function if it is applicable
         """
         if(algorithm == 'bfs'): 
             self.search_alg = BFS
@@ -31,17 +36,24 @@ class Solver(object):
 
         if(algorithm == 'astar'):
             self.search_alg = A_STAR
+        
+        if(algorithm == 'gbfs'):
+            self.search_alg = GBFS
 
+        if(algorithm == 'gbfs' or algorithm == 'astar'):
             if(heuristic == 'hamming'):
                 self.distance = hamming_distance
             elif(heuristic == 'manhattan'):
                 self.distance = manhattan_distance
+            elif(heuristic == 'inversion'):
+                self.distance = perm_inversion
             elif(heuristic == None):
                 raise Exception("A heuristic needs to be defined when using the A* search algorithm")
 
     def total_cost(self, state):
         """
-        Calculate the total cost of a state using f(n) = g(n) + h(n)
+        Calculate the total cost of a state using f(n) = g(n) + h(n).
+        If using GBFS as the search algorithm, calculate only the heuristic cost h(n).
         """
         sum_h = 0
         for i, value in enumerate(state.currentState):
@@ -57,6 +69,21 @@ class Solver(object):
             goal_col = goal_value_index % state.size
 
             sum_h += self.distance(current_row,current_col,goal_row,goal_col)
+        if(self.algorithm == 'gbfs'):
+            return sum_h
+        sum_g = state.cost
+        total_cost = sum_g + sum_h
+        return total_cost
+
+    def total_cost_inversion(self, state):
+        """
+        Calculate the total cost of a state using f(n) = g(n) + h(n)
+        Specifically for the permutation inversion heuristic.
+        If using GBFS as the search algorithm, calculate only the heuristic cost h(n).
+        """
+        sum_h = self.distance(state.currentState)
+        if(self.algorithm == 'gbfs'):
+            return sum_h
         sum_g = state.cost
         total_cost = sum_g + sum_h
         return total_cost
@@ -83,7 +110,10 @@ class Solver(object):
         for state in state_path_to_goal:
             state.display_state()
         print("\n")
-        print("path_cost:", str(path_cost) + "\n")
+        if(self.algorithm == 'bfs' or self.algorithm == 'dfs'):
+            print("iteration count:", str(path_cost) + "\n")
+        else:
+            print("path_cost:", str(path_cost) + "\n")
         print("nodes_explored:", str(nodes_explored) + "\n")
         print("search_depth:", str(search_depth) + "\n")
         print("max_search_depth:", str(max_search_depth) + "\n")
@@ -92,8 +122,11 @@ class Solver(object):
     def solve(self):
         start_time = time.time()
 
-        if(self.search_alg == A_STAR):
-            results = self.search_alg(self.state, self.total_cost)
+        if(self.search_alg == A_STAR or self.search_alg == GBFS):
+            if(self.heuristic == 'inversion'):
+                results = self.search_alg(self.state, self.total_cost_inversion)
+            else:
+                results = self.search_alg(self.state, self.total_cost)
         else:
             results = self.search_alg(self.state)
 
