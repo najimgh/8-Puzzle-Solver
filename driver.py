@@ -17,8 +17,8 @@ def main():
     """
     Modify the solver based on the algorithms you want to run
     """
-    #solver = Solver(initial_state, goal_state, 'dfs')
-    solver = Solver(initial_state, goal_state, 'astar', 'manhattan')
+    #solver = Solver(initial_state, goal_state, 'bfs')
+    solver = Solver(initial_state, goal_state, 'astar', 'nilsson')
     solver.solve()
 
 if __name__ == '__main__':
