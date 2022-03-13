@@ -143,6 +143,8 @@ class State(object):
 
     def expand(self):
         """
+        Successor State Generator
+        
         Finds the children states of the current state by
         applying moves Up, Down, Left and Right and filtering results which return None
 
