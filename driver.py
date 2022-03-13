@@ -16,6 +16,13 @@ def main():
 
     """
     Modify the solver based on the algorithms you want to run
+
+    Uninformed Search:
+    algorithm parameter: dfs | bfs
+
+    Informed Search:
+    algorithm parameter: astar | gbfs
+    heuristic: hamming | manhattan | inversion | nilsson
     """
     #solver = Solver(initial_state, goal_state, 'bfs')
     solver = Solver(initial_state, goal_state, 'astar', 'nilsson')
