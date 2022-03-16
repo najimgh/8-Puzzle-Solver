@@ -33,3 +33,5 @@ Hamming Distance | 363 | 181438 | 363 | 637 | 955.81
 Manhattan Distance | 5 | 5 | 5 | 5 | 0.002
 Permutation Inversion | 5 | 5 | 5 | 5 | 0.0
 Nilsson Sequence | 5 | 6 | 5 | 5 | 0.008
+
+### Input: (5 1 4 7 B 6 3 8 2)
