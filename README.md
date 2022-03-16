@@ -16,7 +16,7 @@ The informed searches can use any of the following heuristics:
 
 # Results
 
-**A* algorithm**
+**A algorithm**
 Heuristic | Path Cost | States Expanded | Search Depth | Max Search Depth | Running Time (ms)
 --- | --- | --- | --- |--- |---
 Hamming Distance | 301 | 283 | 290 | 286 | 289
