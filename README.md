@@ -16,7 +16,10 @@ The informed searches can use any of the following heuristics:
 
 # Results
 
-#### Note the goal state is of the form (1 2 3 8 B 4 7 6 5)
+#### Note the goal state is of the form: (1 2 3 8 B 4 7 6 5)
+1 2 3<br />
+8 _ 4<br />
+7 6 5<br />
 
 ### Input: (2 8 3 1 6 4 7 B 5)
 
