@@ -16,7 +16,20 @@ The informed searches can use any of the following heuristics:
 
 # Results
 
-**A algorithm**
-Heuristic | Path Cost | States Expanded | Search Depth | Max Search Depth | Running Time (ms)
+### Input: (2 8 3 1 6 4 7 B 5)
+
+**A-Star algorithm**
+Heuristic | Path Cost | States Expanded | Search Depth | Max Search Depth | Running Time (average ms)
 --- | --- | --- | --- |--- |---
-Hamming Distance | 301 | 283 | 290 | 286 | 289
+Hamming Distance | 5 | 1581 | 5 | 14 | 0.192
+Manhattan Distance | 5 | 5 | 5 | 5 | 0.0
+Permutation Inversion | 5 | 6 | 5 | 5 | 0.0
+Nilsson Sequence | 5 | 7 | 5 | 5 | 0.0
+
+**Best-First algorithm**
+Heuristic | Path Cost | States Expanded | Search Depth | Max Search Depth | Running Time (average ms)
+--- | --- | --- | --- |--- |---
+Hamming Distance | 363 | 181438 | 363 | 637 | 955.81
+Manhattan Distance | 5 | 5 | 5 | 5 | 0.002
+Permutation Inversion | 5 | 5 | 5 | 5 | 0.0
+Nilsson Sequence | 5 | 6 | 5 | 5 | 0.008
