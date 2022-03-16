@@ -16,6 +16,8 @@ The informed searches can use any of the following heuristics:
 
 # Results
 
+#### Note the goal state is of the form (1 2 3 8 B 4 7 6 5)
+
 ### Input: (2 8 3 1 6 4 7 B 5)
 
 **A-Star algorithm**
